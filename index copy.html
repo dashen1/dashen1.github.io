@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态生成下载二维码</title>
+    <!-- 引入qrcodejs库 -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+
+<h2>扫描二维码下载APP</h2>
+
+<!-- 这个div将用来显示动态生成的二维码 -->
+<div id="qrcode"></div>
+
+<script>
+    // 定义你想要生成二维码的链接
+    var url = "http://yourserver.com/downloads/yourapp.apk";
+
+    // 初始化qrcode对象
+    var qrcode = new QRCode("qrcode", {
+        text: url, // 二维码的内容，即你的APK下载链接
+        width: 200, // 二维码宽度
+        height: 200, // 二维码高度
+        colorDark : "#000000", // 二维码颜色（深色部分）
+        colorLight : "#ffffff" // 二维码颜色（浅色部分）
+    });
+</script>
+
+<p>请使用手机扫描上方二维码开始下载应用。</p>
+
+</body>
+</html>

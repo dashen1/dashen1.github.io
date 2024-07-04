@@ -11,20 +11,41 @@
 <h2>扫描二维码下载APP</h2>
 
 <!-- 这个div将用来显示动态生成的二维码 -->
-<div id="qrcode"></div>
+<!-- HTML结构 -->
+<div id="qrcodeCanvasContainer"></div>
+<img id="logoImg" src="/sources/images/tiktok.png" style="display:none;">
 
 <script>
-    // 定义你想要生成二维码的链接
-    var url = "http://yourserver.com/downloads/yourapp.apk";
 
-    // 初始化qrcode对象
-    var qrcode = new QRCode("qrcode", {
-        text: url, // 二维码的内容，即你的APK下载链接
-        width: 200, // 二维码宽度
-        height: 200, // 二维码高度
-        colorDark : "#000000", // 二维码颜色（深色部分）
-        colorLight : "#ffffff" // 二维码颜色（浅色部分）
-    });
+   // 生成基础二维码
+var qrcode = new QRCode("qrcode", {
+    text: "http://yourserver.com/downloads/yourapp.apk",
+    width: 200,
+    height: 200,
+    colorDark : "#000000",
+    colorLight : "#ffffff"
+});
+
+// 获取二维码图片数据
+var qrCodeBase64 = qrcode._el.firstChild.src;
+
+// 创建Canvas并绘制二维码
+var canvas = document.createElement('canvas');
+canvas.width = 200;
+canvas.height = 200;
+var ctx = canvas.getContext('2d');
+var img = new Image();
+img.onload = function() {
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // 绘制Logo到中心位置（需根据Logo大小调整偏移量）
+    var logoImg = document.getElementById('logoImg');
+    ctx.drawImage(logoImg, (canvas.width - logoImg.width) / 2, (canvas.height - logoImg.height) / 2, logoImg.width, logoImg.height);
+    // 将含有Logo的二维码替换到页面
+    document.getElementById('qrcodeCanvasContainer').innerHTML = '';
+    document.getElementById('qrcodeCanvasContainer').appendChild(canvas);
+};
+img.src = qrCodeBase64;
+
 </script>
 
 <p>请使用手机扫描上方二维码开始下载应用。</p>
